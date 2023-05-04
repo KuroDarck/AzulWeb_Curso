@@ -85,5 +85,5 @@ int main()
 		cout<<" C. Vover Al Principio: "<<endl;
 		cout<<" Seleccionar: ";
 		cin>>opc;
-	} while ((opc != 'S' || opc != 's') && (opc == 'C' || opc == 'c'));
+	} while ((opc != 'S' && opc != 's') && (opc == 'C' && opc == 'c'));
 }
