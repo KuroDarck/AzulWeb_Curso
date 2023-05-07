@@ -2,7 +2,7 @@
 
  <div>
   <h2>📰 
-Licenciatura en Sistemas de Programación / salida intermedia de Técnico en Sistemas 🗒️</h2>
+Cursos Online / Siempre algo nuevo que aprender. 🗒️</h2>
  <p align-text="justify">Somos una comunidad de aprendizaje. Tienes acceso a una red social de programadores, grupos, foros y cursos nuevos cada mes. El mejor lugar para tu desarrollo profesional.</p>
  </div>
 
