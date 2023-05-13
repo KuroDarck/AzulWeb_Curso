@@ -23,52 +23,64 @@ Crea un programa en C++ que de solución a este problema. Solo utiliza lo aprend
 #include <string.h>
 using namespace std;
 
-int main()
-{
+const int MAX_EMPLEADOS = 2;
+
+void clearScreen();
+
+void pause();
+
+int main() {
 	int i = 0, opc, Pos = 0;
 	char ban;
-	int ID, IdEmpleado[20];
-	string empleados[20];
+	int ID, empleadoID[MAX_EMPLEADOS];
+	string empleadosNombre[MAX_EMPLEADOS];
 	string Nombre;
 
 	//Lectura de los datos de los empleado
 
-	do {
-		system("cls");
+	while (i <MAX_EMPLEADOS) {
 		cout<<"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"<<endl;
 		cout << "X\t\t\tEmpleado " << i + 1 <<"\t\t\tX"<<endl;
 		cout<<"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"<<endl;
 		cout << "\nID: ";
 		cin>>ID;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore();
+			cout << "Ingrese el ID nuevamente.\n";
+			pause();
+			clearScreen();
+			continue;
+		}
+
 		cin.ignore();
 		cout << "Nombre: ";
-		getline(cin, Nombre);
-
-		IdEmpleado[i]= ID;
-		empleados[i]= Nombre;
+		string nombre;
+		getline(cin, nombre);
+		empleadoID[i] = ID;
+		empleadosNombre[i] = nombre;
 		i++;
-
-		system("pause");
-	} while (i < 20);
+		pause();
+		clearScreen();
+	}
 
 	//Ordenamiento de Datos utilisando orden por insercion
 
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < MAX_EMPLEADOS; i++) {
 		int pos = i;
-		int aux = IdEmpleado[i];
-		string aux1 = empleados[i];
-		while ((pos > 0) && (IdEmpleado[pos - 1]> aux)) {
-			IdEmpleado[pos]= IdEmpleado[pos - 1];
-			empleados[pos]= empleados[pos - 1];
+		int aux = empleadoID[i];
+		string aux1 = empleadosNombre[i];
+		while ((pos > 0) && (empleadoID[pos - 1]> aux)) {
+			empleadoID[pos]= empleadoID[pos - 1];
+			empleadosNombre[pos]= empleadosNombre[pos - 1];
 			pos--;
 		}
-		IdEmpleado[pos] = aux;
-		empleados[pos]= aux1;
+		empleadoID[pos] = aux;
+		empleadosNombre[pos]= aux1;
 	}
 
 	//Menu Del Aplicativo
 	do {
-		system("cls");
 		cout<<"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"<<endl;
 		cout << "1. Buscar Empleado Por ID\t\t\t\tX" << endl;
 		cout << "2. Buscar ID De Empleado Por Nombre\t\t\tX" << endl;
@@ -80,14 +92,15 @@ int main()
 		cout<<"\nOpcion: ";
 		cin >> opc;
 		cin.ignore();
+		clearScreen();
 		switch (opc) {
 			case 1:
 				ban = 'f';
 				cout << "ingrese ID: ";
 				cin>>ID;
 				i = 0, Pos = 0;
-				while ((i < 20)) {
-					if (IdEmpleado[i]== ID) {
+				while ((i < MAX_EMPLEADOS)) {
+					if (empleadoID[i]== ID) {
 						ban = 'v';
 						Pos = i;
 					}
@@ -95,12 +108,12 @@ int main()
 				}
 				if (ban == 'v') {
 					cout << "\t\t\nEmpleado encontrado" << endl;
-					cout << "\nNombre: " << empleados[Pos]<< endl;
-				
+					cout << "\nNombre: " << empleadosNombre[Pos]<< endl;
+
 				}
 				if (ban == 'f') {
 					cout << "\t\t\nEmpleado no Encontrado" << endl;
-					
+
 				}
 
 				break;
@@ -109,8 +122,8 @@ int main()
 				cout << "Ingrese Nombre: ";
 				getline(cin, Nombre);
 				i = 0, Pos = 0;
-				while ((i < 20)) {
-					if (empleados[i]== Nombre) {
+				while ((i < MAX_EMPLEADOS)) {
+					if (empleadosNombre[i]== Nombre) {
 						ban = 'v';
 						Pos = i;
 					}
@@ -118,12 +131,12 @@ int main()
 				}
 				if (ban == 'v') {
 					cout << "\t\t\nEmpleado encontrado" << endl;
-					cout << "\nID: " << IdEmpleado[Pos]<< endl;
-				
+					cout << "\nID: " << empleadoID[Pos]<< endl;
+
 				}
 				if (ban == 'f') {
 					cout << "\t\tEmpleado No Encontrado" << endl;
-					
+
 				}
 
 				break;
@@ -135,50 +148,51 @@ int main()
 				cout << "ingrese Nombre: ";
 				getline(cin, Nombre);
 				i = 0, Pos = 0;
-				while ((i < 20)) {
-					if ((IdEmpleado[i]== ID) && (empleados[i] == Nombre)) {
+				while ((i < MAX_EMPLEADOS)) {
+					if ((empleadoID[i]== ID) && (empleadosNombre[i] == Nombre)) {
 						ban = 'v';
 					}
 					i++;
 				}
 				if (ban == 'v') {
 					cout << "\n\t\t\nEl empleado Que Busca Existe" << endl;
-				
+
 				}
 				if (ban == 'f') {
 					cout << "\n\t\tEl empleado Que Busca No Existe\n" << endl;
 				}
 				break;
 			case 4: {
-					cout << "\t\t\nCantidad de Nombres Parecido" << endl;
-					int Iguales = 0, Iguales1 = 0;
-					string NAme, nAme;
-					for(int i=0; i<20; i++) {
-						NAme = empleados[i];
-						for(int j=(i+1); j<20; j++) {
-							nAme = empleados[j];
-							if (NAme == nAme) {
-								Iguales++;
-								Iguales1 +=2;
-							}
+				cout << "\t\t\nCantidad de Nombres Parecido" << endl;
+				int Iguales = 0, Iguales1 = 0;
+				string NAme, nAme;
+				for(int i=0; i<MAX_EMPLEADOS; i++) {
+					NAme = empleadosNombre[i];
+					for(int j=(i+1); j<MAX_EMPLEADOS; j++) {
+						nAme = empleadosNombre[j];
+						if (NAme == nAme) {
+							Iguales++;
+							Iguales1++;
 						}
 					}
-					cout << "\nExisten " << Iguales << " Parecido, en los Nombre de " << Iguales1 << " Empleados." << endl;
-				
-					break;
 				}
+				cout << "\nHay " << Iguales << " nombres iguales." << endl;
+				cout << "Se contaron " << Iguales1 << " pares de nombres iguales." << endl;
+				break;
+			}
+
 			case 5:
-				for (int i = 0; i < 20; i++) {
-					cout << "\nID: " << IdEmpleado[i] << endl;
-					cout << "Nombre: " << empleados[i] << endl;
-					
+				for (int i = 0; i < MAX_EMPLEADOS; i++) {
+					cout << "\nID: " << empleadoID[i] << endl;
+					cout << "Nombre: " << empleadosNombre[i] << endl;
+
 				}
 				break;
 			case 6:
-				for (int i = 19; i >= 0; i--) {
-					cout << "\nID: " << IdEmpleado[i]<< endl;
-					cout << "Nombre: " << empleados[i] << endl;
-					
+				for (int i = MAX_EMPLEADOS-1; i >= 0; i--) {
+					cout << "\nID: " << empleadoID[i]<< endl;
+					cout << "Nombre: " << empleadosNombre[i] << endl;
+
 				}
 				break;
 		}
@@ -187,8 +201,18 @@ int main()
 		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> opc;
+		clearScreen();
 	} while (opc == 1);
 
 	return 0;
 	getch();
+}
+
+void clearScreen() {
+	cout << "\033[2J\033[1;1H";
+}
+
+void pause() {
+	cout << "Presione cualquier tecla para continuar...";
+	cin.get();
 }

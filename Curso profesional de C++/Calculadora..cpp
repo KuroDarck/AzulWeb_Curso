@@ -23,19 +23,20 @@ template <class TIPOD>
 TIPOD Raiz(TIPOD);
 
 template <class TIPOD>
-TIPOD Potencia(TIPOD, int);
+TIPOD Potencia(TIPOD, TIPOD);
 
-float Resultado, Nmero, NmerO;
 
-int main()
-{
 
-	cout.precision(3);
+int main() {
+	float Resultado, Nmero, NmerO;
 
-	int opc;
+	cout.precision(3);//Precicion de los decimales
 
+
+	int opc;// Bariable que recibe la opcion del usuario
 	do {
-		system("cls");
+
+		std::system("cls");
 		cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 		cout << "1. Suma" << endl;
 		cout << "2. Resta" << endl;
@@ -49,7 +50,7 @@ int main()
 		switch (opc) {
 			case 1:
 				do {
-					system("cls");
+					std::system("cls");
 					cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 					cout << "\n\t\tSUMA" << endl;
 					cout << "Ingrese Dato: ";
@@ -68,7 +69,7 @@ int main()
 				break;
 			case 2:
 				do {
-					system("cls");
+					std::system("cls");
 					cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 					cout << "\n\t\tRESTA" << endl;
 					cout << "Ingrese Dato: ";
@@ -86,15 +87,19 @@ int main()
 				break;
 			case 3:
 				do {
-					system("cls");
+					std::system("cls");
 					cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 					cout << "\n\t\tDIVICION" << endl;
 					cout << "Ingrese Dato: ";
 					cin >> Nmero;
 					cout << "Ingrese Dato: ";
 					cin >> NmerO;
-					Resultado = Divicion(Nmero, NmerO);
-					cout << "\nEl Resultafo es: " << Resultado << endl;
+					if(NmerO<1) {
+						cout<<"Division por cero!"<< endl;
+					} else {
+						Resultado = Divicion(Nmero, NmerO);
+						cout << "\nEl Resultafo es: " << Resultado << endl;
+					}
 					cout << "\n1. Duvidir Otros Datos" << endl;
 					cout << "2. Salir" << endl;
 					cout << "     Opcion: ";
@@ -104,7 +109,7 @@ int main()
 				break;
 			case 4:
 				do {
-					system("cls");
+					std::system("cls");
 					cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 					cout << "\n\t\tRAIZ" << endl;
 					cout << "Ingrese Dato: ";
@@ -121,15 +126,19 @@ int main()
 				break;
 			case 5:
 				do {
-					system("cls");
+					std::system("cls");
 					cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 					cout << "\n\t\tPOTENCIA" << endl;
 					cout << "Ingrese Dato: ";
 					cin >> Nmero;
 					cout << "Ingrese La Potencia: ";
 					cin >> NmerO;
-					Resultado = Potencia(Nmero, NmerO);
-					cout << "\nEl Resultafo es: " << Resultado << endl;
+					if(NmerO<1) {
+						cout<<"Potencia por cero!"<< endl;
+					} else {
+						Resultado = Potencia(Nmero, NmerO);
+						cout << "\nEl Resultafo es: " << Resultado << endl;
+					}
 					cout << "\n1. Elevar Otro Dato" << endl;
 					cout << "2. Salir" << endl;
 					cout << "     Opcion: ";
@@ -147,30 +156,26 @@ int main()
 
 //Funcion de Suma
 template <class TIPOD>
-TIPOD Suma(TIPOD x, TIPOD y)
-{
+TIPOD Suma(TIPOD x, TIPOD y) {
 	return x + y;
 }
 
 //Funcion de Resta
 template <class TIPOD>
-TIPOD Resta(TIPOD x, TIPOD y)
-{
+TIPOD Resta(TIPOD x, TIPOD y) {
 	return x - y;
 }
 
 
 //Funcion Divicion
 template <class TIPOD>
-TIPOD Divicion(TIPOD x, TIPOD y)
-{
+TIPOD Divicion(TIPOD x, TIPOD y) {
 	return x / y;
 }
 
 //Funcion de Potencia
 template <class TIPOD>
-TIPOD Potencia(TIPOD x, int y)
-{
+TIPOD Potencia(TIPOD x, TIPOD y) {
 	TIPOD aux = 0;
 	aux = x;
 	for (int i = 1; i < y; i++) {
@@ -182,8 +187,7 @@ TIPOD Potencia(TIPOD x, int y)
 
 //Funcion de Raiz cuadrada
 template <class TIPOD>
-TIPOD Raiz(TIPOD x)
-{
+TIPOD Raiz(TIPOD x) {
 	TIPOD raiz=0,aux=0;
 	TIPOD error = 0.00001;
 
