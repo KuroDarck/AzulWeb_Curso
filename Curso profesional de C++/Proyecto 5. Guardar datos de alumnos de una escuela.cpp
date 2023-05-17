@@ -17,17 +17,21 @@ se pueda modificar el dato erronneo y posteriormente mostrar de nuevo los datos 
 */
 #include<iostream>
 #include<string.h>
-#include<conio.h>
 using namespace std;
 
-string NombreAlu[20];
-string ApellidoAlu[20];
+const int MAX_ALUMNOS = 20;
+const int MAX_MATERIAS = 5;
+
+string NombreAlu[MAX_ALUMNOS];
+string ApellidoAlu[MAX_ALUMNOS];
+
 string Nombre,Apellido,Materia;
-string NbreMateria[20][5];
-float Calificacion[20][5];
+
+string NbreMateria[MAX_ALUMNOS][MAX_MATERIAS];
+float Calificacion[MAX_ALUMNOS][MAX_MATERIAS];
 float Calif,Prom=0,Suma=0;
-float Promedio[20],ProGeneral=0;
-int AlgoMal,CualDato,QMatCal,QEstudiante,opc;
+float Promedio[MAX_ALUMNOS],ProGeneral=0;
+
 
 int main()
 {
@@ -35,7 +39,7 @@ int main()
 	
 	//LLenado de Dato de Los estudiantes 
 	
-	for(int i=0; i<20; i++) {
+	for(int i=0; i<MAX_ALUMNOS; i++) {
 		cout<<"\nAlumno: N"<<i+1<<endl;
 		cout<<"Nombre: ";
 		getline(cin,Nombre);
@@ -45,7 +49,7 @@ int main()
 		ApellidoAlu[i]=Apellido;
 		
 		// LLenado de las calificaciones
-		for(int j=0; j<5; j++) {
+		for(int j=0; j<MAX_MATERIAS; j++) {
 			cout<<"Materia N"<<j+1<<": ";
 			getline(cin,Materia);
 			cout<<"Calificacion: ";
@@ -56,8 +60,8 @@ int main()
 		}
 	}
 	// Sacar el Promedio De los estudiantes
-	for(int i=0; i<20; i++) {
-		for(int j=0; j<5; j++) {
+	for(int i=0; i<MAX_ALUMNOS; i++) {
+		for(int j=0; j<MAX_MATERIAS; j++) {
 			Suma+=Calificacion[i][j];
 		}
 		Prom=Suma/5;
@@ -67,7 +71,7 @@ int main()
 	
 	//suma del promedio  de los estudiantes 
 	
-	for(int i=0; i<20; i++) {
+	for(int i=0; i<MAX_ALUMNOS; i++) {
 		Suma+=Promedio[i];
 	}
 	ProGeneral=Suma/2;
@@ -78,10 +82,10 @@ int main()
 	system("cls");
 	printf("%50s\n","Informacion de Los Estudiantes");
 	
-	for(int i=0; i<20; i++) {
+	for(int i=0; i<MAX_ALUMNOS; i++) {
 		cout<<"\nNombre: "<<NombreAlu[i]<<" Apellido: "<<ApellidoAlu[i]<<endl;
 		
-		for(int j=0; j<5; j++) {
+		for(int j=0; j<MAX_MATERIAS; j++) {
 			cout<<"Materia: "<<NbreMateria[i][j]<<" | "<<"Calificacion: "<<Calificacion[i][j]<<endl;
 		}
 		cout<<"Promedio: "<<Promedio[i]<<endl;
@@ -96,6 +100,8 @@ int main()
 	cout<<"1. Si"<<endl;
 	cout<<"2. No"<<endl;
 	cout<<"Opcion: ";
+	
+	int AlgoMal;
 	cin>>AlgoMal;
 	do {
 
@@ -109,7 +115,10 @@ int main()
 			cout<<"3. Materia"<<endl;
 			cout<<"4. Calificacion"<<endl;
 			cout<<"Opcion: ";
+			int CualDato;
 			cin>>CualDato;
+			
+			int QMatCal;
 			
 			if(CualDato==3) {
 				cout<<"Cual Materia(1,2,3,4 o 5): ";
@@ -120,6 +129,7 @@ int main()
 				cin>>QMatCal;
 			}
 			cout<<"De que Alumno (1,2,3,4,5 al 20): ";
+			int QEstudiante;
 			cin>>QEstudiante;
             
             cin.ignore();
@@ -170,6 +180,7 @@ int main()
 		cout<<"1. Si"<<endl;
 		cout<<"2. No"<<endl;
 		cout<<"Opcion: ";
+		int opc;
 		cin>>opc;
 		cin.ignore();
 	} while(opc==1);
@@ -203,5 +214,4 @@ int main()
 	}
 	cout<<"\nPromedio General Del Grupo: "<<ProGeneral<<endl;
 	return 0;
-	getch();
 }

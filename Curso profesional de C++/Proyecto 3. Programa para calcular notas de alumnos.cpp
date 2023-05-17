@@ -14,91 +14,117 @@ A los alumnos que tiene una nota menor o igual a 6 se les encargo un trabajo, es
  Imprimir las dos notas en columnas diferentes.
 
 Al final se debe de mostrar la opción para volver a calcular mas notas de alumnos, o finalizar el programa*/
+void clearScreen();
+const int MAX_ALUMNOS = 30;
+const int MIN_ALUMNOS = 20;
+const int MAX_NOTA = 10;
+const int MIN_NOTA = 1;
 
-int main()
-{
-	int Alumno[30];
-	int N=0,mayor=0,menor=11;
+
+int main() {
+	int Alumno[MAX_ALUMNOS];
+	int mayor=0,menor=11;
 	int Suma=0,tam=0;;
 	char opc;
-	int Promedio;
-	system("COLOR 04");
+
+	system("COLOR 04");// solo en Windows
 
 	do {
 		printf("%50s\n","Salon de Clases RHM");
 		cout<<"Ingrese Cantidad de Alumnos: ";
-		cin>>N;
-		while(N<20 || N>30) {
+		int limiteAlumno;
+		cin>>limiteAlumno;
+
+		while(limiteAlumno<MIN_ALUMNOS || limiteAlumno>MAX_ALUMNOS) {
 			system("cls");
 			printf("%50s\n","Salon de Clases RHM");
 			cout<<"La Cantidad De Alumno Deve Ser Mayor A 20 y Menor A 30"<<endl;
 			cout<<"Ingrese Cantidad de Alumnos: ";
-			cin>>N;
+			cin>>limiteAlumno;
 		}
-		for(int i=0; i<N; i++) {
-			cout<<"Ingrese la Nota del Alumno ["<<i+1<<"] :";
-			cin>>Alumno[i];
-			Suma+=Alumno[i];
-		}
-		Promedio=Suma/N;
+
+		clearScreen();
+		int iterador=0;
+		do {
+			int notaAlumno;
+			cout<<"Ingrese la Nota del Alumno ["<<iterador+1<<"] :";
+			cin>>notaAlumno;
+			if((notaAlumno<=MAX_NOTA)&&(notaAlumno>=MIN_NOTA)) {
+				Alumno[iterador]=notaAlumno;
+				Suma+=Alumno[iterador];
+			}
+			while((notaAlumno>MAX_NOTA)||(notaAlumno<MIN_NOTA)) {
+
+				cout<<"Ingrese la Nota del Alumno ["<<iterador+1<<"] :";
+				cin>>notaAlumno;
+				Alumno[iterador]=notaAlumno;
+				Suma+=Alumno[iterador];
+
+			}
+
+			iterador++;
+		} while(iterador<limiteAlumno);
+
+		int Promedio;
+		Promedio=Suma/limiteAlumno;
 		printf("\n%1s%6d\n","PROMEDIO DEL SALON: ",Promedio);
 		cout<<"\nNOTA MAS ALTA"<<endl;
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<limiteAlumno; i++) {
 			if(Alumno[i]>mayor) {
 				mayor=Alumno[i];
 			}
 
 		}
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<limiteAlumno; i++) {
 			if(Alumno[i]==mayor) {
 				printf("%1s%2d%7s%5d\n","Alumno #",(i+1)," | Nota:",mayor);
 			}
 		}
 		cout<<"\nNOTA MAS VAJA"<<endl;
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<limiteAlumno; i++) {
 			if(Alumno[i]<menor) {
 				menor=Alumno[i];
 			}
 		}
-		for(int i=0; i<N; i++) {
+
+		for(int i=0; i<limiteAlumno; i++) {
 			if(Alumno[i]==menor) {
 				printf("%1s%2d%7s%5d\n","Alumno #",(i+1)," | Nota:",menor);
 			}
 		}
 		cout<<"\nNotas en un Rango Promedio -1:"<<endl;
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<limiteAlumno; i++) {
 			int rango1=(Promedio-1);
 			if(Alumno[i]==rango1) {
 				printf("%1s%2d%7s%5d\n","Alumno #",(i+1)," | Nota:",Alumno[i]);
 			}
 		}
 		cout<<"\nNotas en un Rango Promedio +1:"<<endl;
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<limiteAlumno; i++) {
 			int rango2=(Promedio+1);
 			if(Alumno[i]==rango2) {
 				printf("%1s%2d%7s%5d\n","Alumno #",(i+1)," | Nota:",Alumno[i]);
 			}
 		}
 
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<limiteAlumno; i++) {
 			if(Alumno[i]<=6) {
 				tam++;
 			}
 		}
-		int Alumno1[tam],l=0,i=0;;
-		while(i<N) {	
-			if(Alumno[i]<=6&&l<tam){
-			Alumno1[l]=Alumno[i]+1;	
-			l++;
-			}
-			else{
+		int Alumno1[tam],k=0,i=0;;
+		while(i<limiteAlumno) {
+			if((Alumno[i]<=6) && (k<tam)) {
+				Alumno1[k]=Alumno[i]+1;
+				k++;
+			} else {
 				i++;
-			}	
-		i++;
+			}
+			i++;
 		}
-	
-		
-	
+
+
+
 
 		cout<<"\nNota mas UN punto por el trabajo Realizado"<<endl;
 		for(int j=0; j<tam; j++) {
@@ -113,5 +139,8 @@ int main()
 	} while((opc!='S'||opc!='s')&&(opc=='C'||opc=='c'));
 
 	return 0;
-	getch();
+}
+
+void clearScreen() {
+	cout << "\033[2J\033[1;1H";
 }

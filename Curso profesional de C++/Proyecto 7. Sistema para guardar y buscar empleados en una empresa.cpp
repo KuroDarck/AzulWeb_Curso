@@ -27,7 +27,7 @@ const int MAX_EMPLEADOS = 2;
 
 void clearScreen();
 
-void pause();
+void pausa();
 
 int main() {
 	int i = 0, opc, Pos = 0;
@@ -48,7 +48,7 @@ int main() {
 			cin.clear();
 			cin.ignore();
 			cout << "Ingrese el ID nuevamente.\n";
-			pause();
+			pausa();
 			clearScreen();
 			continue;
 		}
@@ -60,7 +60,7 @@ int main() {
 		empleadoID[i] = ID;
 		empleadosNombre[i] = nombre;
 		i++;
-		pause();
+		pausa();
 		clearScreen();
 	}
 
@@ -205,14 +205,14 @@ int main() {
 	} while (opc == 1);
 
 	return 0;
-	getch();
+	pausa;
 }
 
 void clearScreen() {
 	cout << "\033[2J\033[1;1H";
 }
 
-void pause() {
+void pausa() {
 	cout << "Presione cualquier tecla para continuar...";
 	cin.get();
 }
