@@ -14,7 +14,7 @@ Cursos Online / Siempre algo nuevo que aprender. 🗒️</h2>
 - 🔄Proyecto 1. Traductor de fecha,
 - ✖️Proyecto 2. Tablas de multiplicar, con menú.
 - 📝Proyecto 3. Programa para calcular notas de alumnos.
-- ➕➖Proyecto 4. Elabora una calculadora de matrices  Sumas y Restas.
+- ➕Proyecto 4. Elabora una calculadora de matrices  Sumas y Restas.
 - 💾Proyecto 5. Guardar datos de alumnos de una escuela.
 - 🎥Proyecto 6. Proyecto Video Azul Web.
 - 👥Proyecto 7. Sistema para guardar y buscar empleados en una empresa.
