@@ -21,9 +21,7 @@ Cursos Online / Siempre algo nuevo que aprender. 🗒️</h2>
 - 👩‍🏫Proyecto 8. Sistema para guardar información de maestros y sus materias.
 - 🧮Proyecto 9. Calculadora.
 ### 📲 Curso profesional de HTML y CSS. 💻!!
-- 🏵️P1.
-- ✅P2
-- 💱P3
-- 📝P4
-- 🗂️P5
+- 🍿Proyecto 1 – Netflix
+- 🌐Proyecto 2 – Azul Web
+- 🎓Proyecto final
 </details>
