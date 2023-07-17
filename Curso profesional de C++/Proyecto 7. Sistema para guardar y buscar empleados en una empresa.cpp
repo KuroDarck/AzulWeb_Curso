@@ -207,12 +207,15 @@ int main() {
 	return 0;
 	pausa;
 }
-
 void clearScreen() {
-	cout << "\033[2J\033[1;1H";
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
 }
 
-void pausa() {
-	cout << "Presione cualquier tecla para continuar...";
-	cin.get();
+void pause() {
+    std::cout << "Press any key to continue...";
+    std::cin.get();
 }

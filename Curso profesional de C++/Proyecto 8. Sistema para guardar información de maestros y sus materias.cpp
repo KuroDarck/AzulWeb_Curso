@@ -383,3 +383,16 @@ int main() {
 
 	return 0;
 }
+
+void clearScreen() {
+	#ifdef _WIN32
+		system("cls");
+	#else
+		system("clear");
+	#endif
+}
+
+void pause() {
+	std::cout << "Press any key to continue...";
+	std::cin.get();
+}

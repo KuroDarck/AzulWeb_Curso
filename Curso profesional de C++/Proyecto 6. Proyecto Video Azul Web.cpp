@@ -19,97 +19,161 @@ Utiliza solo lo aprendido en los módulos anteriores.
 */
 
 #include <iostream>
-#include <string.h>
+#include <string>
+#include <limits>
 
-using namespace std;
+const int MAX_MOVIES = 20;
 
-string Peliculas[20][2];
-string Nombre, anio;
-int opc,Clun=0;
+struct Movie {
+    std::string title;
+    std::string releaseYear;
+};
 
-int main()
-{
-	//Ingreso de Los Datos de Nombre y Año De Las Peliculas
-
-	system("cls");
-	cout << "\t************************ Tienda De Videos RHM ************************" << endl;
-	for(int i=0; i<20; i++) {
-
-		cout<<"\t***** Nombre de La Pelicula: ";
-		getline(cin,Nombre);
-		cout<<"\t***** Anio de La Pelicula: ";
-		getline(cin,anio);
-		Peliculas[i][Clun]=Nombre;
-		Peliculas[i][Clun+1]=anio;
-	}
-
-//Orddenando Por Insercion 
-for (int i = 0; i < 4; i++) {
-					int	pos = i;
-					string aux0 = Peliculas[i][Clun];
-					string aux = Peliculas[i][Clun+1];
-					while ((pos > 0 ) && (Peliculas[pos - 1][Clun+1] > aux)) {
-						Peliculas[pos][Clun] = Peliculas[pos - 1][Clun];
-						Peliculas[pos][Clun+1] = Peliculas[pos - 1][Clun+1];
-						pos--;
-					};
-					Peliculas[pos][Clun]=aux0;
-					Peliculas[pos][Clun+1] = aux;
-					
-				};
-
-// inicio del menu de Salida en pantalla
-	do {
-		system("cls");
-		cout << "\t************************ Tienda De Videos RHM ************************" << endl;
-		cout << "\t*************************** Menu Principal ***************************" << endl;
-		cout<<endl;
-		cout << "\t***** 1. Mostrar peliculas desde las mas viejas a las mas nuevas *****" << endl;
-		cout << "\t***** 2. Mostrar peliculas desde las mas nuevas a las mas viejas *****" << endl;
-		cout<<"\t***** 3. Mostrar peliculas de un anio en concreto *****"<<endl;
-		cout<<"\t\tOpcion: ";
-		cin>>opc;
-
-
-		switch (opc) {
-			case 1:
-				cout<<"\n\t***** Mostrando peliculas desde las mas viejas a las mas nuevas *****"<<endl;
-				cout<<"\n\t***** Nombre \t\t"<<"|"<<"\t\tAnio *****"<<endl;
-				for(int i=0;i<20;i++){
-					cout<<"\t***** "<<Peliculas[i][Clun]<<"\t\t"<<"|"<<"\t\t"<<Peliculas[i][Clun+1]<<" *****"<<endl;
-				}
-				break;
-				
-				case 2: 
-				cout<<"\n\t***** Mostrando peliculas desde las mas nuevas a las mas viejas *****"<<endl;
-				cout<<"\n\t***** Nombre \t\t"<<"|"<<"\t\tAnio *****"<<endl;
-				for(int i=19;i>=0;i--){
-					cout<<"\t***** "<<Peliculas[i][Clun]<<"\t\t"<<"|"<<"\t\t"<<Peliculas[i][Clun+1]<<" *****"<<endl;
-				}
-				
-				break;
-			case 3:
-				cin.ignore();
-				int fecha;
-				cout<<"\n\t***** Mostrando peliculas de un anio en concreto *****"<<endl;
-				cout<<"\n\t***** DE Que Anio es La Pelicula: ";
-				getline(cin,anio);
-				for(int i=0;i<20;i++){
-					if(Peliculas[i][Clun+1]==anio){
-					fecha=i;	
-					}
-				}
-				cout<<"\n\t***** Nombre \t\t"<<"|"<<"\t\tAnio *****"<<endl;
-				cout<<"\t***** "<<Peliculas[fecha][Clun]<<"\t\t"<<"|"<<"\t\t"<<Peliculas[fecha][Clun+1]<<" *****"<<endl;
-				break;
-
-		}
-		//Menu de decicion salida o continuar
-		cout << "\n\t*************************** Sub Menu ***************************" << endl;
-		cout << "\t***** 1. Regresar al Menu" << endl;
-		cout << "\t***** 2. Salir" << endl;
-		cout << "\t***** Opcion: ";
-		cin >> opc;
-
-	} while (opc==1);
+// Function to clear Screen
+void clearScreen() {
+	std::cout << "\033[2J\033[1;1H";
 }
+
+// Function to input movie data
+void inputMovieData(Movie movies[]) {
+    std::cout << "\t************************ RHM Video Store ************************" << std::endl;
+    for (int i = 0; i < MAX_MOVIES; i++) {
+        std::cout << "\t***** Movie Title: ";
+        std::getline(std::cin, movies[i].title);
+
+        // Validate if the title is empty
+        if (movies[i].title.empty()) {
+            std::cout << "\t***** Invalid movie title. Please try again. *****" << std::endl;
+            i--; // Decrement i to re-enter the title
+            continue;
+        }
+
+        std::cout << "\t***** Release Year: ";
+        std::getline(std::cin, movies[i].releaseYear);
+
+        // Validate if the release year is empty
+        if (movies[i].releaseYear.empty()) {
+            std::cout << "\t***** Invalid release year. Please try again. *****" << std::endl;
+            i--; // Decrement i to re-enter the release year
+        }
+    }
+}
+
+// Function to sort movies by release year in ascending order
+void sortMoviesByReleaseYearAscending(Movie movies[]) {
+    for (int i = 0; i < MAX_MOVIES - 1; i++) {
+        for (int j = 0; j < MAX_MOVIES - i - 1; j++) {
+            if (movies[j].releaseYear > movies[j + 1].releaseYear) {
+                std::swap(movies[j], movies[j + 1]);
+            }
+        }
+    }
+}
+
+// Function to display movies from oldest to newest
+void displayMoviesAscending(const Movie movies[]) {
+    std::cout << "\n\t***** Showing movies from oldest to newest *****" << std::endl;
+    std::cout << "\n\t***** Title \t\t" << "|" << "\t\tYear *****" << std::endl;
+    for (int i = 0; i < MAX_MOVIES; i++) {
+        std::cout << "\t***** " << movies[i].title << "\t\t" << "|" << "\t\t" << movies[i].releaseYear << " *****" << std::endl;
+    }
+}
+
+// Function to display movies from newest to oldest
+void displayMoviesDescending(const Movie movies[]) {
+    std::cout << "\n\t***** Showing movies from newest to oldest *****" << std::endl;
+    std::cout << "\n\t***** Title \t\t" << "|" << "\t\tYear *****" << std::endl;
+    for (int i = MAX_MOVIES - 1; i >= 0; i--) {
+        std::cout << "\t***** " << movies[i].title << "\t\t" << "|" << "\t\t" << movies[i].releaseYear << " *****" << std::endl;
+    }
+}
+
+// Function to display movies from a specific year
+void displayMoviesByYear(const Movie movies[]) {
+    std::string year;
+    std::cout << "\n\t***** Showing movies from a specific year *****" << std::endl;
+    std::cout << "\n\t***** Which Year: ";
+    std::getline(std::cin, year);
+
+    // Validate if the year is empty
+    if (year.empty()) {
+        std::cout << "\t***** Invalid year. Please try again. *****" << std::endl;
+        return;
+    }
+
+    bool found = false;
+    std::cout << "\n\t***** Title \t\t" << "|" << "\t\tYear *****" << std::endl;
+    for (int i = 0; i < MAX_MOVIES; i++) {
+        if (movies[i].releaseYear == year) {
+            std::cout << "\t***** " << movies[i].title << "\t\t" << "|" << "\t\t" << movies[i].releaseYear << " *****" << std::endl;
+            found = true;
+        }
+    }
+    if (!found) {
+        std::cout << "\t***** No movies found for the specified year. *****" << std::endl;
+    }
+}
+
+// Function to display the main menu
+void displayMainMenu() {
+    std::cout << "\t************************ RHM Video Store ************************" << std::endl;
+    std::cout << "\t*************************** Main Menu ***************************" << std::endl;
+    std::cout << std::endl;
+    std::cout << "\t***** 1. Show movies from oldest to newest *****" << std::endl;
+    std::cout << "\t***** 2. Show movies from newest to oldest *****" << std::endl;
+    std::cout << "\t***** 3. Show movies from a specific year *****" << std::endl;
+    std::cout << "\t\tOption: ";
+}
+
+// Function to display the sub menu
+void displaySubMenu() {
+    std::cout << "\n\t*************************** Sub Menu ***************************" << std::endl;
+    std::cout << "\t***** 1. Return to Main Menu" << std::endl;
+    std::cout << "\t***** 2. Exit" << std::endl;
+    std::cout << "\t***** Option: ";
+}
+
+// Function to get the menu option
+int getMenuOption() {
+    int option;
+    std::cin >> option;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return option;
+}
+
+int main() {
+    Movie movies[MAX_MOVIES];
+    inputMovieData(movies);
+
+    // Sorting the movies by release year in ascending order
+    sortMoviesByReleaseYearAscending(movies);
+
+    int option;
+    do {
+        clearScreen();
+        displayMainMenu();
+        option = getMenuOption();
+
+        switch (option) {
+            case 1:
+                displayMoviesAscending(movies);
+                break;
+            case 2:
+                displayMoviesDescending(movies);
+                break;
+            case 3:
+                displayMoviesByYear(movies);
+                break;
+            default:
+                std::cout << "\t***** Invalid option. Please try again. *****" << std::endl;
+                break;
+        }
+
+        displaySubMenu();
+        option = getMenuOption();
+
+    } while (option == 1);
+
+    return 0;
+}
+

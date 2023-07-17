@@ -15,203 +15,257 @@ Y al final el promedio general del grupo.
 Una vez que se muestre en pantalla, darle la opción al usuario si todos los datos están correctos, y de no ser asi
 se pueda modificar el dato erronneo y posteriormente mostrar de nuevo los datos en pantalla ya con los datos correctos.
 */
-#include<iostream>
-#include<string.h>
-using namespace std;
+#include <iostream>
+#include <string>
+#include <limits>
+#include <iomanip>
 
-const int MAX_ALUMNOS = 20;
-const int MAX_MATERIAS = 5;
+const int MAX_STUDENTS = 20;
+const int MAX_SUBJECTS = 5;
 
-string NombreAlu[MAX_ALUMNOS];
-string ApellidoAlu[MAX_ALUMNOS];
+struct Student {
+    std::string name;
+    std::string surname;
+    std::string subjects[MAX_SUBJECTS];
+    float grades[MAX_SUBJECTS];
+    float average;
+};
 
-string Nombre,Apellido,Materia;
-
-string NbreMateria[MAX_ALUMNOS][MAX_MATERIAS];
-float Calificacion[MAX_ALUMNOS][MAX_MATERIAS];
-float Calif,Prom=0,Suma=0;
-float Promedio[MAX_ALUMNOS],ProGeneral=0;
-
+void clearScreen();
+void enterStudentData(Student& student);
+void enterGrades(Student& student);
+void calculateStudentAverage(Student& student);
+void calculateClassAverage(const Student students[], float& classAverage);
+void displayStudentInformation(const Student students[], float classAverage);
+void correctStudentData(Student students[]);
 
 int main()
 {
-	printf("%50s\n","Salon de Clases RHM");
-	
-	//LLenado de Dato de Los estudiantes 
-	
-	for(int i=0; i<MAX_ALUMNOS; i++) {
-		cout<<"\nAlumno: N"<<i+1<<endl;
-		cout<<"Nombre: ";
-		getline(cin,Nombre);
-		cout<<"Apellido: ";
-		getline(cin,Apellido);
-		NombreAlu[i]=Nombre;
-		ApellidoAlu[i]=Apellido;
-		
-		// LLenado de las calificaciones
-		for(int j=0; j<MAX_MATERIAS; j++) {
-			cout<<"Materia N"<<j+1<<": ";
-			getline(cin,Materia);
-			cout<<"Calificacion: ";
-			cin>>Calif;
-			NbreMateria[i][j]=Materia;
-			Calificacion[i][j]=Calif;
-			cin.ignore();
-		}
-	}
-	// Sacar el Promedio De los estudiantes
-	for(int i=0; i<MAX_ALUMNOS; i++) {
-		for(int j=0; j<MAX_MATERIAS; j++) {
-			Suma+=Calificacion[i][j];
-		}
-		Prom=Suma/5;
-		Promedio[i]=Prom;
-		Suma=0;
-	}
-	
-	//suma del promedio  de los estudiantes 
-	
-	for(int i=0; i<MAX_ALUMNOS; i++) {
-		Suma+=Promedio[i];
-	}
-	ProGeneral=Suma/2;
-	Suma=0;
-	
-	//Limpiesa de pantalla y imprecion de los datos ingresados
-	
-	system("cls");
-	printf("%50s\n","Informacion de Los Estudiantes");
-	
-	for(int i=0; i<MAX_ALUMNOS; i++) {
-		cout<<"\nNombre: "<<NombreAlu[i]<<" Apellido: "<<ApellidoAlu[i]<<endl;
-		
-		for(int j=0; j<MAX_MATERIAS; j++) {
-			cout<<"Materia: "<<NbreMateria[i][j]<<" | "<<"Calificacion: "<<Calificacion[i][j]<<endl;
-		}
-		cout<<"Promedio: "<<Promedio[i]<<endl;
-	}
-	
-	cout<<"\nPromedio General Del Grupo: "<<ProGeneral<<endl;
-	cout<<endl;
-	
-	//Menu De consulta del estado de los datos
-	
-	printf("%50s\n","Todos los datos estan correctos");
-	cout<<"1. Si"<<endl;
-	cout<<"2. No"<<endl;
-	cout<<"Opcion: ";
-	
-	int AlgoMal;
-	cin>>AlgoMal;
-	do {
+    std::cout << std::setw(50) << "Classroom RHM\n";
 
-        //Menu de edicion de los datos
-		if(AlgoMal==2) {
-		    
-			system("cls");
-			printf("%45s\n","Que Dato Esta Mal ");
-			cout<<"1. Nombre"<<endl;
-			cout<<"2. Apellido"<<endl;
-			cout<<"3. Materia"<<endl;
-			cout<<"4. Calificacion"<<endl;
-			cout<<"Opcion: ";
-			int CualDato;
-			cin>>CualDato;
-			
-			int QMatCal;
-			
-			if(CualDato==3) {
-				cout<<"Cual Materia(1,2,3,4 o 5): ";
-				cin>>QMatCal;
-			}
-			if(CualDato==4) {
-				cout<<"Cual Nota (1,2,3,4 o 5): ";
-				cin>>QMatCal;
-			}
-			cout<<"De que Alumno (1,2,3,4,5 al 20): ";
-			int QEstudiante;
-			cin>>QEstudiante;
-            
-            cin.ignore();
-			switch(CualDato) {
-				case 1:
-				    
-					printf("%45s\n","Inicie Correccion");
-					cout<<"Nombre: ";
-					getline(cin,Nombre);
-					NombreAlu[QEstudiante-1]=Nombre;
-					
-					break;
-				case 2:
-					printf("%45s\n","Inicie Correccion");
-					cout<<"Apellido: ";
-					getline(cin,Apellido);
-					ApellidoAlu[QEstudiante-1]=Apellido;
-                    
-					break;
-				case 3:
-					fflush(stdin);
-					printf("%45s\n","Inicie Correccion");
-					cout<<"Materia: ";
-					getline(cin,Materia);
-					NbreMateria[QEstudiante-1][QMatCal-1]=Materia;
-                    
-					break;
-				case 4:
-					fflush(stdin);
-					printf("%45s\n","Inicie Correccion");
-					cout<<"Calificacion: ";
-					cin>>Calif;
-					Calificacion[QEstudiante-1][QMatCal-1]=Calif;
-				
-					break;
+    Student students[MAX_STUDENTS];
+    float classAverage = 0.0f;
 
+    // Enter student data
+    for (int i = 0; i < MAX_STUDENTS; i++) {
+        std::cout << "\nStudent: N" << i + 1 << std::endl;
+        enterStudentData(students[i]);
+        enterGrades(students[i]);
+        calculateStudentAverage(students[i]);
+    }
 
-			}
-		} else {
-			cout<<"Todos Los Datos Correctos "<<endl;
-			cout<<"Fin Del Programa"<<endl;
-			exit(-1);
-		}
-		
-		// sub menu de edicion 
-		
-		printf("%50s\n","Desea Editar Algun Otro Dato");
-		cout<<"1. Si"<<endl;
-		cout<<"2. No"<<endl;
-		cout<<"Opcion: ";
-		int opc;
-		cin>>opc;
-		cin.ignore();
-	} while(opc==1);
+    calculateClassAverage(students, classAverage);
 
-   //Recalculacion de los promedio de los estudiante y el promedio general
+    clearScreen();
+    std::cout << std::setw(50) << "Student Information\n";
+    displayStudentInformation(students, classAverage);
 
-	for(int i=0; i<20; i++) {
-		for(int j=0; j<5; j++) {
-			Suma+=Calificacion[i][j];
-		}
-		Prom=Suma/5;
-		Promedio[i]=Prom;
-		Suma=0;
-	}
-	for(int i=0; i<20; i++) {
-		Suma+=Promedio[i];
-	}
-	ProGeneral=Suma/2;
-	Suma=0;
-	
-	 //Reimprecion de los datos del los estudiantes
-	
-	system("cls");
-	printf("%50s\n","Informacion Actualizada de Los Estudiantes");
-	for(int i=0; i<20; i++) {
-		cout<<"\nNombre: "<<NombreAlu[i]<<" Apellido: "<<ApellidoAlu[i]<<endl;
-		for(int j=0; j<5; j++) {
-			cout<<"Materia: "<<NbreMateria[i][j]<<" | "<<"Calificacion: "<<Calificacion[i][j]<<endl;
-		}
-		cout<<"Promedio: "<<Promedio[i]<<endl;
-	}
-	cout<<"\nPromedio General Del Grupo: "<<ProGeneral<<endl;
-	return 0;
+    std::cout << "\nClass Average: " << classAverage << std::endl;
+    std::cout << std::endl;
+
+    std::cout << std::setw(50) << "All data is correct\n";
+    std::cout << "1. Yes" << std::endl;
+    std::cout << "2. No" << std::endl;
+    std::cout << "Option: ";
+
+    int somethingWrong;
+    std::cin >> somethingWrong;
+
+    if (somethingWrong == 2) {
+        correctStudentData(students);
+    } else {
+        std::cout << "All Data Correct\n";
+        std::cout << "End of Program\n";
+        return 0;
+    }
+
+    clearScreen();
+    std::cout << std::setw(50) << "Updated Student Information\n";
+    displayStudentInformation(students, classAverage);
+
+    std::cout << "\nClass Average: " << classAverage << std::endl;
+    return 0;
+}
+
+void clearScreen() {
+    std::cout << "\033[2J\033[1;1H";
+}
+
+void enterStudentData(Student& student) {
+    std::string name, surname;
+
+    std::cout << "Name: ";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::getline(std::cin, name);
+    student.name = name;
+
+    std::cout << "Surname: ";
+    std::getline(std::cin, surname);
+    student.surname = surname;
+}
+
+void enterGrades(Student& student) {
+    for (int i = 0; i < MAX_SUBJECTS; i++) {
+        std::string subject;
+        float grade;
+
+        std::cout << "Subject " << i + 1 << ": ";
+        std::getline(std::cin, subject);
+        student.subjects[i] = subject;
+
+        while (true) {
+            std::cout << "Grade: ";
+            std::cin >> grade;
+
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Enter a valid grade.\n";
+            } else if (grade < 0 || grade > 100) {
+                std::cout << "The grade should be between 0 and 100.\n";
+            } else {
+                student.grades[i] = grade;
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                break;
+            }
+        }
+    }
+}
+
+void calculateStudentAverage(Student& student) {
+    float sum = 0.0f;
+    for (int i = 0; i < MAX_SUBJECTS; i++) {
+        sum += student.grades[i];
+    }
+    student.average = sum / MAX_SUBJECTS;
+}
+
+void calculateClassAverage(const Student students[], float& classAverage) {
+    float sum = 0.0f;
+    for (int i = 0; i < MAX_STUDENTS; i++) {
+        sum += students[i].average;
+    }
+    classAverage = sum / MAX_STUDENTS;
+}
+
+void displayStudentInformation(const Student students[], float classAverage) {
+    for (int i = 0; i < MAX_STUDENTS; i++) {
+        std::cout << "\nName: " << students[i].name << " Surname: " << students[i].surname << std::endl;
+
+        for (int j = 0; j < MAX_SUBJECTS; j++) {
+            std::cout << "Subject: " << students[i].subjects[j] << " | " << "Grade: " << students[i].grades[j] << std::endl;
+        }
+
+        std::cout << "Average: " << students[i].average << std::endl;
+    }
+}
+
+void correctStudentData(Student students[]) {
+    while (true) {
+        clearScreen();
+        std::cout << std::setw(45) << "Which Data is Incorrect\n";
+        std::cout << "1. Name" << std::endl;
+        std::cout << "2. Surname" << std::endl;
+        std::cout << "3. Subject" << std::endl;
+        std::cout << "4. Grade" << std::endl;
+        std::cout << "Option: ";
+
+        int whichData;
+        std::cin >> whichData;
+
+        if (whichData < 1 || whichData > 4) {
+            std::cout << "Enter a valid option.\n";
+            continue;
+        }
+
+        int studentNumber;
+        std::cout << "Which Student (1 to " << MAX_STUDENTS << "): ";
+        std::cin >> studentNumber;
+
+        if (studentNumber < 1 || studentNumber > MAX_STUDENTS) {
+            std::cout << "Enter a valid student number.\n";
+            continue;
+        }
+
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        switch (whichData) {
+            case 1: {
+                std::cout << std::setw(45) << "Initiate Correction\n";
+                std::string name;
+                std::cout << "Name: ";
+                std::getline(std::cin, name);
+                students[studentNumber - 1].name = name;
+                break;
+            }
+            case 2: {
+                std::cout << std::setw(45) << "Initiate Correction\n";
+                std::string surname;
+                std::cout << "Surname: ";
+                std::getline(std::cin, surname);
+                students[studentNumber - 1].surname = surname;
+                break;
+            }
+            case 3: {
+                int subjectNumber;
+                std::cout << "Which Subject (1 to " << MAX_SUBJECTS << "): ";
+                std::cin >> subjectNumber;
+                if (subjectNumber < 1 || subjectNumber > MAX_SUBJECTS) {
+                    std::cout << "Enter a valid subject number.\n";
+                    continue;
+                }
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                std::cout << std::setw(45) << "Initiate Correction\n";
+                std::string subject;
+                std::cout << "Subject: ";
+                std::getline(std::cin, subject);
+                students[studentNumber - 1].subjects[subjectNumber - 1] = subject;
+                break;
+            }
+            case 4: {
+                int subjectNumber;
+                std::cout << "Which Grade (1 to " << MAX_SUBJECTS << "): ";
+                std::cin >> subjectNumber;
+                if (subjectNumber < 1 || subjectNumber > MAX_SUBJECTS) {
+                    std::cout << "Enter a valid grade number.\n";
+                    continue;
+                }
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                while (true) {
+                    std::cout << std::setw(45) << "Initiate Correction\n";
+                    float grade;
+                    std::cout << "Grade: ";
+                    std::cin >> grade;
+
+                    if (std::cin.fail()) {
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        std::cout << "Enter a valid grade.\n";
+                    } else if (grade < 0 || grade > 100) {
+                        std::cout << "The grade should be between 0 and 100.\n";
+                    } else {
+                        students[studentNumber - 1].grades[subjectNumber - 1] = grade;
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        std::cout << std::setw(50) << "Do you want to correct any other data\n";
+        std::cout << "1. Yes" << std::endl;
+        std::cout << "2. No" << std::endl;
+        std::cout << "Option: ";
+
+        int option;
+        std::cin >> option;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if (option != 1) {
+            break;
+        }
+    }
 }

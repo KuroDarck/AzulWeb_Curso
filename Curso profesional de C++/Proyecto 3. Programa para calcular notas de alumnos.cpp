@@ -1,6 +1,4 @@
-#include<iostream>
-#include<conio.h>
-using namespace std;
+
 /*Crea un programa en C++ para guardar las notas de N alumnos, N tiene que ser mayor o igual que 20 o menor o igual que 30,
  esto se debe de verificar en el programa, y en caso de que el numero de alumnos este fuera del rango se debe de mostrar la
  opción de ingresar de nuevo el numero de alumnos.
@@ -14,133 +12,139 @@ A los alumnos que tiene una nota menor o igual a 6 se les encargo un trabajo, es
  Imprimir las dos notas en columnas diferentes.
 
 Al final se debe de mostrar la opción para volver a calcular mas notas de alumnos, o finalizar el programa*/
-void clearScreen();
-const int MAX_ALUMNOS = 30;
-const int MIN_ALUMNOS = 20;
-const int MAX_NOTA = 10;
-const int MIN_NOTA = 1;
+#include <iostream>
+#include <cstdlib>
+#include <iomanip>
 
+const int MAX_STUDENTS = 30;
+const int MIN_STUDENTS = 20;
+const int MAX_GRADE = 10;
+const int MIN_GRADE = 1;
+
+void clearScreen();
 
 int main() {
-	int Alumno[MAX_ALUMNOS];
-	int mayor=0,menor=11;
-	int Suma=0,tam=0;;
-	char opc;
+    int students[MAX_STUDENTS];
+    int highestGrade = 0, lowestGrade = 11;
+    int sum = 0, count = 0;
+    char option;
 
-	system("COLOR 04");// solo en Windows
+    system("COLOR 04"); // only for Windows
 
-	do {
-		printf("%50s\n","Salon de Clases RHM");
-		cout<<"Ingrese Cantidad de Alumnos: ";
-		int limiteAlumno;
-		cin>>limiteAlumno;
+    do {
+        std::cout << std::setw(50) << "Classroom RHM\n";
+        std::cout << "Enter the number of students: ";
+        int studentCount;
+        std::cin >> studentCount;
 
-		while(limiteAlumno<MIN_ALUMNOS || limiteAlumno>MAX_ALUMNOS) {
-			system("cls");
-			printf("%50s\n","Salon de Clases RHM");
-			cout<<"La Cantidad De Alumno Deve Ser Mayor A 20 y Menor A 30"<<endl;
-			cout<<"Ingrese Cantidad de Alumnos: ";
-			cin>>limiteAlumno;
-		}
+        while (studentCount < MIN_STUDENTS || studentCount > MAX_STUDENTS) {
+            system("cls");
+            std::cout << std::setw(50) << "Classroom RHM\n";
+            std::cout << "The number of students must be between 20 and 30.\n";
+            std::cout << "Enter the number of students: ";
+            std::cin >> studentCount;
+        }
 
-		clearScreen();
-		int iterador=0;
-		do {
-			int notaAlumno;
-			cout<<"Ingrese la Nota del Alumno ["<<iterador+1<<"] :";
-			cin>>notaAlumno;
-			if((notaAlumno<=MAX_NOTA)&&(notaAlumno>=MIN_NOTA)) {
-				Alumno[iterador]=notaAlumno;
-				Suma+=Alumno[iterador];
-			}
-			while((notaAlumno>MAX_NOTA)||(notaAlumno<MIN_NOTA)) {
+        clearScreen();
+        int iterator = 0;
+        do {
+            int studentGrade;
+            std::cout << "Enter the grade of student [" << iterator + 1 << "]: ";
+            std::cin >> studentGrade;
 
-				cout<<"Ingrese la Nota del Alumno ["<<iterador+1<<"] :";
-				cin>>notaAlumno;
-				Alumno[iterador]=notaAlumno;
-				Suma+=Alumno[iterador];
+            if (studentGrade <= MAX_GRADE && studentGrade >= MIN_GRADE) {
+                students[iterator] = studentGrade;
+                sum += students[iterator];
+                count++;
+            } else {
+                while (studentGrade > MAX_GRADE || studentGrade < MIN_GRADE) {
+                    std::cout << "Enter the grade of student [" << iterator + 1 << "]: ";
+                    std::cin >> studentGrade;
+                    students[iterator] = studentGrade;
+                    sum += students[iterator];
+                    count++;
+                }
+            }
 
-			}
+            iterator++;
+        } while (iterator < studentCount);
 
-			iterador++;
-		} while(iterador<limiteAlumno);
+        int average = sum / count;
+        std::cout << "\n" << std::left << std::setw(20) << "CLASS AVERAGE: " << std::setw(2) << average << "\n";
+        std::cout << "\nHIGHEST GRADE\n";
+        for (int i = 0; i < studentCount; i++) {
+            if (students[i] > highestGrade) {
+                highestGrade = students[i];
+            }
+        }
 
-		int Promedio;
-		Promedio=Suma/limiteAlumno;
-		printf("\n%1s%6d\n","PROMEDIO DEL SALON: ",Promedio);
-		cout<<"\nNOTA MAS ALTA"<<endl;
-		for(int i=0; i<limiteAlumno; i++) {
-			if(Alumno[i]>mayor) {
-				mayor=Alumno[i];
-			}
+        for (int i = 0; i < studentCount; i++) {
+            if (students[i] == highestGrade) {
+                std::cout << std::left << std::setw(20) << "Student #" << (i + 1) << " | Grade: " << highestGrade << "\n";
+            }
+        }
 
-		}
-		for(int i=0; i<limiteAlumno; i++) {
-			if(Alumno[i]==mayor) {
-				printf("%1s%2d%7s%5d\n","Alumno #",(i+1)," | Nota:",mayor);
-			}
-		}
-		cout<<"\nNOTA MAS VAJA"<<endl;
-		for(int i=0; i<limiteAlumno; i++) {
-			if(Alumno[i]<menor) {
-				menor=Alumno[i];
-			}
-		}
+        std::cout << "\nLOWEST GRADE\n";
+        for (int i = 0; i < studentCount; i++) {
+            if (students[i] < lowestGrade) {
+                lowestGrade = students[i];
+            }
+        }
 
-		for(int i=0; i<limiteAlumno; i++) {
-			if(Alumno[i]==menor) {
-				printf("%1s%2d%7s%5d\n","Alumno #",(i+1)," | Nota:",menor);
-			}
-		}
-		cout<<"\nNotas en un Rango Promedio -1:"<<endl;
-		for(int i=0; i<limiteAlumno; i++) {
-			int rango1=(Promedio-1);
-			if(Alumno[i]==rango1) {
-				printf("%1s%2d%7s%5d\n","Alumno #",(i+1)," | Nota:",Alumno[i]);
-			}
-		}
-		cout<<"\nNotas en un Rango Promedio +1:"<<endl;
-		for(int i=0; i<limiteAlumno; i++) {
-			int rango2=(Promedio+1);
-			if(Alumno[i]==rango2) {
-				printf("%1s%2d%7s%5d\n","Alumno #",(i+1)," | Nota:",Alumno[i]);
-			}
-		}
+        for (int i = 0; i < studentCount; i++) {
+            if (students[i] == lowestGrade) {
+                std::cout << std::left << std::setw(20) << "Student #" << (i + 1) << " | Grade: " << lowestGrade << "\n";
+            }
+        }
 
-		for(int i=0; i<limiteAlumno; i++) {
-			if(Alumno[i]<=6) {
-				tam++;
-			}
-		}
-		int Alumno1[tam],k=0,i=0;;
-		while(i<limiteAlumno) {
-			if((Alumno[i]<=6) && (k<tam)) {
-				Alumno1[k]=Alumno[i]+1;
-				k++;
-			} else {
-				i++;
-			}
-			i++;
-		}
+        std::cout << "\nGrades within 1 point of the average:\n";
+        int range1 = average - 1;
+        for (int i = 0; i < studentCount; i++) {
+            if (students[i] == range1) {
+                std::cout << std::left << std::setw(20) << "Student #" << (i + 1) << " | Grade: " << students[i] << "\n";
+            }
+        }
 
+        std::cout << "\nGrades within 1 point of the average:\n";
+        int range2 = average + 1;
+        for (int i = 0; i < studentCount; i++) {
+            if (students[i] == range2) {
+                std::cout << std::left << std::setw(20) << "Student #" << (i + 1) << " | Grade: " << students[i] << "\n";
+            }
+        }
 
+        int belowSixCount = 0;
+        for (int i = 0; i < studentCount; i++) {
+            if (students[i] <= 6) {
+                belowSixCount++;
+            }
+        }
 
+        int adjustedGrades[belowSixCount];
+        int k = 0, i = 0;
+        while (i < studentCount) {
+            if (students[i] <= 6 && k < belowSixCount) {
+                adjustedGrades[k] = students[i] + 1;
+                k++;
+            } else {
+                i++;
+            }
+            i++;
+        }
 
-		cout<<"\nNota mas UN punto por el trabajo Realizado"<<endl;
-		for(int j=0; j<tam; j++) {
+        std::cout << "\nGrades increased by 1 point for the work done:\n";
+        for (int j = 0; j < belowSixCount; j++) {
+            std::cout << std::left << std::setw(20) << "Previous Grade: " << (adjustedGrades[j] - 1) << " | Current Grade: " << adjustedGrades[j] << "\n";
+        }
 
-			printf("%1s%3d%7s%5d\n","Nota Anterior:",(Alumno1[j]-1)," | Nota Actual:",Alumno1[j]);
-		}
-		cout<<"\n\nDesea Volver a Calcular Nota De Atros Alumnos arque 'C'"<<endl;
-		cout<<"Desea Salir 'S': "<<endl;
-		cout<<"Opcion: ";
-		cin>>opc;
-		system("cls");
-	} while((opc!='S'||opc!='s')&&(opc=='C'||opc=='c'));
+        std::cout << "\n\nDo you want to calculate the grades of other students? Enter 'C' to continue or 'S' to exit: ";
+        std::cin >> option;
+        system("cls");
+    } while ((option != 'S' && option != 's') && (option == 'C' || option == 'c'));
 
-	return 0;
+    return 0;
 }
 
 void clearScreen() {
-	cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[1;1H";
 }

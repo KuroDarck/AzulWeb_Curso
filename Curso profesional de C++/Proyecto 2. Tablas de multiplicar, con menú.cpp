@@ -1,5 +1,3 @@
-#include<iostream>
-using namespace std;
 /*
 Realice un programa en C++ para mostrar las tablas de multiplicar. El programa debe de mostrar un mensaje
  con las tablas del 1 al 10, el usuario debe de elegir cual tabla desea que se imprima en pantalla, el
@@ -7,47 +5,48 @@ Realice un programa en C++ para mostrar las tablas de multiplicar. El programa d
  hasta el numero 20. Al final de mostrar la tabla el usuario puede elegir si desea regresar al menu o
  finalizar el programa. Se utiliza If, While o Do While y For.
 */
+#include <iostream>
 
-void clearScreen();//Schroll
+void clearScreen(); // Function to clear the screen
 
 int main() {
-	int Tabla,Limite,Multi;
-	char opc;
-	system("COLOR 04");// solo en Windowas Cambia a rojo la fuentee
-	do {
-		cout<<"\t\t\t\t:Las Tablas de Multiplicar:"<<endl;
-		cout<<"\nElija que tabla desea mostrar ";
-		cout<<"\t| 1-2-3-4-5-6-7-8-9-10|"<<endl;
+    int Table, Limit, Multi;
+    char option;
+    system("COLOR 04"); // Changes the font color to red (Windows only)
 
+    do {
+        std::cout << "\t\t\t\tMultiplication Tables:\n";
+        std::cout << "\nChoose which table to display: 1-2-3-4-5-6-7-8-9-10\n";
 
-		do { // comprueba entrada de usuario
-			cout<<"Tabla del: ";
-			cin>>Tabla;
-		} while(Tabla==0 || Tabla>10);
-		
-		cout<<"Hasta Donde desea Multiplicar: ";
-		cin>>Limite;
-		cout<<endl;
-		
-		clearScreen();
+        do {
+            std::cout << "Table of: ";
+            std::cin >> Table;
+        } while (Table == 0 || Table > 10);
 
-		cout<<"\t\t\t\t:La Tablas del: "<<Tabla<<endl;
-		for(int i=1; i<=Limite; i++) { // multiplica e imprime la tabla hasta su limite
-			Multi=Tabla*i;
-			cout<<"|"<<Tabla<<"*"<<i<<"="<<Multi<<"|"<<endl;
-		}
-		
-		cout<<"\nDesea Volver a MultiplicarMarque: |C|"<<endl;
-		cout<<"Desea Salir Marque: |S|"<<endl;
-		cout<<"Opcion: ";
-		cin>>opc;
-		clearScreen();
-		
-	} while((opc=='C'|| opc=='c')&(opc!='S'||opc!='s'));// opciones para el usuario salir o multiplicar de nuevo
+        std::cout << "Up to which number do you want to multiply: ";
+        std::cin >> Limit;
+        std::cout << std::endl;
 
-	return 0;
+        clearScreen();
+
+        std::cout << "\t\t\t\tTable of " << Table << std::endl;
+
+        for (int i = 1; i <= Limit; i++) { // Multiply and print the table up to the limit
+            Multi = Table * i;
+            std::cout << "|" << Table << "*" << i << "=" << Multi << "|" << std::endl;
+        }
+
+        std::cout << "\nTo multiply again, enter: |C|\n";
+        std::cout << "To exit, enter: |S|\n";
+        std::cout << "Option: ";
+        std::cin >> option;
+        clearScreen();
+
+    } while ((option == 'C' || option == 'c') && (option != 'S' || option != 's')); // User options to continue or exit
+
+    return 0;
 }
 
 void clearScreen() {
-	cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[1;1H";
 }

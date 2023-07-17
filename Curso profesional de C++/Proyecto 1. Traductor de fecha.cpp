@@ -1,6 +1,3 @@
-#include <iostream>
-#include <string>
-using namespace std;
 /*
 Escriba un programa que lea tres valores enteros que represente el mes, el dia y el aÃ±o con cuatro dia gitos.
 El programa deberÃ¡ mostrar la fecha en uno de los formatos siguientes, dependiendo de la selecciÃ³n del usuario.
@@ -9,153 +6,144 @@ Si se introduce un 2, se mostrara el mes con una abreviatura de tres letras (Ene
  Si se produce un 3, se mostrara el mes como un entero (01), el dia como un entero (11) y el aÃ±o (1999). Solo usar lo expuesto en temas vistos previamente.
 
 */
+#include <iostream>
+#include <string>
 
-void clearScreen();//Schroll
-void pausa();//Pause
-void mostrarFecha(int a,int b, int c,int opcion);//Formato de fehca
+void clearScreen();
+void pause();
+void showDate(int month, int day, int year, int option);
 
 int main() {
-	int mes, dia, ano;
+    int month, day, year;
 
-	//Lectura de Los valores a Traducir
-	cout << "Ingrese la fecha a Traducir: (Mes-Dia-Anio)" << endl;
-	cout << "Mes: ";
-	cin >> mes;
-	cout << "Dia: ";
-	cin >> dia;
-	cout << "Anio: ";
-	cin >> ano;
+    // Reading the values to translate
+    std::cout << "Enter the date to translate (Month-Day-Year):" << std::endl;
+    std::cout << "Month: ";
+    std::cin >> month;
+    std::cout << "Day: ";
+    std::cin >> day;
+    std::cout << "Year: ";
+    std::cin >> year;
 
-	//Menu de el  traductor de Fecha
-	clearScreen();
-	cout << "\t\t\t\"Elija la opcion de su preferencia\""<<endl;
-	cout << "\"Elija La Opcion 1. para mostrar formato (Enero-01-201)\""<<endl;
-	cout << "\"Elija La Opcion 2. para mostrar formato (Ene-01-201)\""<<endl;
-	cout << "\"Elija La Opcion 3. para mostrar formato (01-01-201)\""<<endl;
-	cout << "\t\t\t\"Opcion: \"";
-	int opc;
-	cin >> opc;
-	clearScreen();
-	mostrarFecha(mes,dia,ano,opc);
+    // Menu for date translation options
+    clearScreen();
+    std::cout << "\t\t\t\"Choose your preferred option\"" << std::endl;
+    std::cout << "\"Choose Option 1 to display format (January-01-201)\"" << std::endl;
+    std::cout << "\"Choose Option 2 to display format (Jan-01-201)\"" << std::endl;
+    std::cout << "\"Choose Option 3 to display format (01-01-201)\"" << std::endl;
+    std::cout << "\t\t\t\"Option: \"";
+    int option;
+    std::cin >> option;
+    clearScreen();
+    showDate(month, day, year, option);
 
-
-
-	pausa();
-	return 0;
+    pause();
+    return 0;
 }
 
-void clearScreen() {//duncion de desplazamiento de los contenidos
-	cout << "\033[2J\033[1;1H";
+void clearScreen() {
+    std::cout << "\033[2J\033[1;1H";
 }
 
-void pausa() {//funcion de pausa
-	cout << "Presione cualquier tecla para continuar...";
-	cin.get();
+void pause() {
+    std::cout << "Press any key to continue...";
+    std::cin.get();
 }
 
-void mostrarFecha(int a,int b, int c,int opcion) {// funcion traductora de fecha
-	string mesName;
+void showDate(int month, int day, int year, int option) {
+    std::string monthName;
 
-	if(a<=12) {// If que Comprueba que el mes esta en el rango permitido del 1 - 12
-
-		switch (opcion) {
-
-			case 1: {  // Caso Para Colocar Nombre Completo del mes
-				switch (a) {
-					case 1:
-						mesName = "Enero";
-						break;
-					case 2:
-						mesName = "Febrero";
-						break;
-					case 3:
-						mesName = "Marzo";
-						break;
-					case 4:
-						mesName = "Abril";
-						break;
-					case 5:
-						mesName = "Mayo";
-						break;
-					case 6:
-						mesName = "Junio";
-						break;
-					case 7:
-						mesName = "Julio";
-						break;
-					case 8:
-						mesName = "Agosto";
-						break;
-					case 9:
-						mesName = "Septiembre";
-						break;
-					case 10:
-						mesName = "Octubre";
-						break;
-					case 11:
-						mesName = "Noviembre";
-						break;
-					case 12:
-						mesName = "Diciembre";
-						break;
-				}
-				break;
-			}
-
-			case 2: { //Caso Para Colocar Acronimo del mes
-				switch (a) {
-					case 1:
-						mesName = "Ene";
-						break;
-					case 2:
-						mesName = "Feb";
-						break;
-					case 3:
-						mesName = "Mar";
-						break;
-					case 4:
-						mesName = "Abr";
-						break;
-					case 5:
-						mesName = "May";
-						break;
-					case 6:
-						mesName = "Jun";
-						break;
-					case 7:
-						mesName = "Jul";
-						break;
-					case 8:
-						mesName = "Ago";
-						break;
-					case 9:
-						mesName = "Sep";
-						break;
-					case 10:
-						mesName = "Oct";
-						break;
-					case 11:
-						mesName = "Nov";
-						break;
-					case 12:
-						mesName = "Dic";
-						break;
-
-				}
-				break;
-			}
-
-			case 3: { // Caso Para Colocar Numero del mes
-				mesName =to_string(a);
-				break;
-			}
-
-		}
-
-		cout<<mesName<<" - " << b << " - " << c << endl;
-	} else {// mensaje de error en caso de que supere el rango permitido del 1 - 12
-		cout << "Existe un total de 12 meses en un anio y cada mes puede tener hasta 31 dias como maximo."<<endl;
-
-	}
-
+    if (month <= 12) {
+        switch (option) {
+            case 1: {
+                switch (month) {
+                    case 1:
+                        monthName = "January";
+                        break;
+                    case 2:
+                        monthName = "February";
+                        break;
+                    case 3:
+                        monthName = "March";
+                        break;
+                    case 4:
+                        monthName = "April";
+                        break;
+                    case 5:
+                        monthName = "May";
+                        break;
+                    case 6:
+                        monthName = "June";
+                        break;
+                    case 7:
+                        monthName = "July";
+                        break;
+                    case 8:
+                        monthName = "August";
+                        break;
+                    case 9:
+                        monthName = "September";
+                        break;
+                    case 10:
+                        monthName = "October";
+                        break;
+                    case 11:
+                        monthName = "November";
+                        break;
+                    case 12:
+                        monthName = "December";
+                        break;
+                }
+                break;
+            }
+            case 2: {
+                switch (month) {
+                    case 1:
+                        monthName = "Jan";
+                        break;
+                    case 2:
+                        monthName = "Feb";
+                        break;
+                    case 3:
+                        monthName = "Mar";
+                        break;
+                    case 4:
+                        monthName = "Apr";
+                        break;
+                    case 5:
+                        monthName = "May";
+                        break;
+                    case 6:
+                        monthName = "Jun";
+                        break;
+                    case 7:
+                        monthName = "Jul";
+                        break;
+                    case 8:
+                        monthName = "Aug";
+                        break;
+                    case 9:
+                        monthName = "Sep";
+                        break;
+                    case 10:
+                        monthName = "Oct";
+                        break;
+                    case 11:
+                        monthName = "Nov";
+                        break;
+                    case 12:
+                        monthName = "Dec";
+                        break;
+                }
+                break;
+            }
+            case 3: {
+                monthName = std::to_string(month);
+                break;
+            }
+        }
+        std::cout << monthName << " - " << day << " - " << year << std::endl;
+    } else {
+        std::cout << "There are 12 months in a year, and each month can have a maximum of 31 days." << std::endl;
+    }
 }

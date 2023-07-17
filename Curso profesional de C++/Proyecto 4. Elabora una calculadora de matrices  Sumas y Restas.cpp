@@ -2,99 +2,96 @@
 /*Elabora una calculadora de matrices | Sumas y Restas.
 */
 #include <iostream>
-#include <conio.h>
-
-using namespace std;
 
 void clearScreen();
 
+int Matrix1[10][10], Matrix2[10][10], ResultMatrix[10][10];
+int rows1, columns1, rows2, columns2;
 
-int Matriz1[10][10], Matriz2[10][10],MatrizResultado[10][10];
-int fla1, Clun1, fla2, Clun2;
 int main() {
-	char opc;
+	char option;
 	do {
-
-		cout << "Ingrese Cantidad De Filas de la primera matriz: ";
-		cin >> fla1;
-		cout << "Ingrese Cantidad De Columna de la primera matriz: ";
-		cin >> Clun1;
-		cout << endl;
+		std::cout << "Enter the number of rows for the first matrix: ";
+		std::cin >> rows1;
+		std::cout << "Enter the number of columns for the first matrix: ";
+		std::cin >> columns1;
+		std::cout << std::endl;
 		clearScreen();
-		cout << "Ingrese Cantidad De Filas de la segunda matriz: ";
-		cin >> fla2;
-		cout << "Ingrese Cantidad De Columna de la segunda matriz: ";
-		cin >> Clun2;
+		std::cout << "Enter the number of rows for the second matrix: ";
+		std::cin >> rows2;
+		std::cout << "Enter the number of columns for the second matrix: ";
+		std::cin >> columns2;
 		clearScreen();
-		cout << "\nIngrese Dato de La Primera matriz" << endl;
-		for (int i = 0; i < fla1; i++) {
-			for (int j = 0; j < Clun1; j++) {
-				cout << "Ingrese Dato [" << i << "][" << j << "] :";
-				cin >> Matriz1[i][j];
+		std::cout << "\nEnter data for the first matrix:" << std::endl;
+		for (int i = 0; i < rows1; i++) {
+			for (int j = 0; j < columns1; j++) {
+				std::cout << "Enter data [" << i << "][" << j << "]: ";
+				std::cin >> Matrix1[i][j];
 			}
 		}
 		clearScreen();
-		cout << "\nIngrese Dato de La Segunda matriz" << endl;
-		for (int i = 0; i < fla2; i++) {
-			for (int j = 0; j < Clun2; j++) {
-				cout << "Ingrese Dato [" << i << "][" << j << "] :";
-				cin >> Matriz2[i][j];
+		std::cout << "\nEnter data for the second matrix:" << std::endl;
+		for (int i = 0; i < rows2; i++) {
+			for (int j = 0; j < columns2; j++) {
+				std::cout << "Enter data [" << i << "][" << j << "]: ";
+				std::cin >> Matrix2[i][j];
 			}
 		}
 		clearScreen();
-		int SmRes;
-		cout << "1. Sumar: " << endl;
-		cout << "2. Restar: " << endl;
-		cout << "Seleccione: ";
-		cin >> SmRes;
+		int operationResult;
+		std::cout << "1. Addition" << std::endl;
+		std::cout << "2. Subtraction" << std::endl;
+		std::cout << "Select an option: ";
+		std::cin >> operationResult;
 		clearScreen();
-		if (SmRes == 1) {
-			if ((fla1 == fla2)&&(Clun1 == Clun2)) {
-				for (int i = 0; i < fla2; i++) {
-					for (int j = 0; j < Clun2; j++) {
-						MatrizResultado[i][j]=Matriz1[i][j]+Matriz2[i][j];
+		if (operationResult == 1) {
+			if ((rows1 == rows2) && (columns1 == columns2)) {
+				for (int i = 0; i < rows2; i++) {
+					for (int j = 0; j < columns2; j++) {
+						ResultMatrix[i][j] = Matrix1[i][j] + Matrix2[i][j];
 					}
 				}
-				cout<<"El Resultado De La Suma es:"<<endl;
-				for (int i = 0; i < fla2; i++) {
-					cout << "[ ";
-					for (int j = 0; j < Clun2; j++) {
-						cout<<MatrizResultado[i][j]<<" ";
+				std::cout << "The result of the addition is:" << std::endl;
+				for (int i = 0; i < rows2; i++) {
+					std::cout << "[ ";
+					for (int j = 0; j < columns2; j++) {
+						std::cout << ResultMatrix[i][j] << " ";
 					}
-					cout << "]" << endl;
+					std::cout << "]" << std::endl;
 				}
-
-			} else {
-				cout << "Deven tener La misma cantidad de Filas y Columnas Para Sumar" << endl;
+			}
+			else {
+				std::cout << "The matrices must have the same number of rows and columns to perform addition." << std::endl;
 			}
 		}
-		if(SmRes==2) {
-			if ((fla1 == fla2)&&(Clun1 == Clun2)) {
-				for (int i = 0; i < fla2; i++) {
-					for (int j = 0; j < Clun2; j++) {
-						MatrizResultado[i][j]=Matriz1[i][j]-Matriz2[i][j];
+		else if (operationResult == 2) {
+			if ((rows1 == rows2) && (columns1 == columns2)) {
+				for (int i = 0; i < rows2; i++) {
+					for (int j = 0; j < columns2; j++) {
+						ResultMatrix[i][j] = Matrix1[i][j] - Matrix2[i][j];
 					}
 				}
-				cout<<"El Resultado de laResta es:"<<endl;
-				for (int i = 0; i < fla2; i++) {
-					cout << "[ ";
-					for (int j = 0; j < Clun2; j++) {
-						cout<<	MatrizResultado[i][j]<<" ";
+				std::cout << "The result of the subtraction is:" << std::endl;
+				for (int i = 0; i < rows2; i++) {
+					std::cout << "[ ";
+					for (int j = 0; j < columns2; j++) {
+						std::cout << ResultMatrix[i][j] << " ";
 					}
-					cout << "]" << endl;
+					std::cout << "]" << std::endl;
 				}
-			} else {
-				cout << "Deven tener La misma cantidad de Filas y Columnas Para Restar" << endl;
+			}
+			else {
+				std::cout << "The matrices must have the same number of rows and columns to perform subtraction." << std::endl;
 			}
 		}
-		cout<<" S. Salir: "<<endl;
-		cout<<" C. Vover Al Principio: "<<endl;
-		cout<<" Seleccionar: ";
-		cin>>opc;
+		std::cout << "S. Exit" << std::endl;
+		std::cout << "C. Continue" << std::endl;
+		std::cout << "Select an option: ";
+		std::cin >> option;
 		clearScreen();
-	} while ((opc != 'S' || opc != 's') && (opc == 'C' || opc == 'c'));
+	} while ((option != 'S' && option != 's') && (option == 'C' || option == 'c'));
 }
 
 void clearScreen() {
-	cout << "\033[2J\033[1;1H";
+	std::cout << "\033[2J\033[1;1H";
 }
